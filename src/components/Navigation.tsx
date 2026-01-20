@@ -3,7 +3,23 @@ import { LogOut, User } from 'lucide-react'; // cite: 18 (using lucide-react as 
 import { supabase } from '../lib/supabase';
 import { LogOut } from 'lucide-react'; //
 import { supabase } from '../lib/supabase'; //
+import { LogOut, Layout, Shield, BookOpen, BarChart3, MessageSquare } from 'lucide-react'; //
+import { supabase } from '../lib/supabase'; //
 
+// ... inside your Navigation component ...
+<div className="flex flex-col h-full">
+  {/* Existing Nav Links */}
+  
+  <div className="mt-auto pb-4 px-4">
+    <button
+      onClick={() => supabase.auth.signOut()}
+      className="flex items-center w-full gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200"
+    >
+      <LogOut size={20} />
+      <span className="font-medium">Sign Out</span>
+    </button>
+  </div>
+</div>
 // Inside your Navigation component return, add this button:
 <button
   onClick={() => supabase.auth.signOut()}
@@ -73,5 +89,6 @@ export function Navigation({ activeTab, onTabChange }: NavigationProps) {
     </nav>
   );
 }
+
 
 
