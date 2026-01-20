@@ -7,6 +7,15 @@ export function Dashboard() {
   const [labsCompleted, setLabsCompleted] = useState(0);
   const [currentStreak, setCurrentStreak] = useState(0);
   const [skillLevel, setSkillLevel] = useState('Beginner');
+  // You can pass the email as a prop from App.tsx
+export function Dashboard({ userEmail }: { userEmail: string }) {
+  return (
+    <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-200">
+      <h2 className="text-2xl font-bold text-gray-900">Welcome back, {userEmail}!</h2>
+      <p className="text-gray-600">Your personalized security lab is ready.</p>
+    </div>
+  );
+}
 
   useEffect(() => {
     loadDashboardData();
@@ -145,3 +154,4 @@ export function Dashboard() {
     </div>
   );
 }
+
