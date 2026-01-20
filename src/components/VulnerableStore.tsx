@@ -172,6 +172,22 @@ export function VulnerableStore({ vulnerabilityType, onClose }: VulnerableStoreP
   };
 
   const info = vulnerabilityInfo[vulnerabilityType] || vulnerabilityInfo['sql-injection'];
+  // Inside VulnerableStore.tsx
+const handleComplete = async () => {
+  const { data: { user } } = await supabase.auth.getUser(); //
+
+  if (user) {
+    const { error } = await supabase.from('user_progress').insert({
+      user_id: user.id, // Links completion to the logged-in person
+      module_name: vulnerabilityType,
+      module_level: 'Beginner',
+      points: 100,
+      completed_at: new Date().toISOString()
+    });
+
+    if (error) console.error('Error saving progress:', error.message);
+  }
+};
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -522,6 +538,7 @@ export function VulnerableStore({ vulnerabilityType, onClose }: VulnerableStoreP
     </div>
   );
 }
+
 
 
 
