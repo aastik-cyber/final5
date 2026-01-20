@@ -11,6 +11,20 @@ export function Progress() {
   const [advancedProgress, setAdvancedProgress] = useState(0);
   const [recentActivity, setRecentActivity] = useState<Array<{ type: string; name: string; date: string; points: number }>>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const fetchUserStats = async () => {
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  if (user) {
+    const { data, error } = await supabase
+      .from('user_progress')
+      .select('*')
+      .eq('user_id', user.id); // Filtering ensures privacy and personalization
+      
+    if (!error) {
+      // Update your local state with this user's specific progress
+    }
+  }
+};
 
   useEffect(() => {
     loadProgressData();
@@ -362,4 +376,5 @@ export function Progress() {
     </div>
   );
 }
+
 
