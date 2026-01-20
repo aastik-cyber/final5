@@ -65,6 +65,19 @@ export function VulnerableStore({ vulnerabilityType, onClose }: VulnerableStoreP
   const [displayHtml, setDisplayHtml] = useState('');
   const handleComplete = async () => {
   const { data: { session } } = await supabase.auth.getSession();
+  const saveProgress = async (points: number) => {
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  if (user) {
+    await supabase.from('user_progress').insert({
+      user_id: user.id, // This links the data to the specific person
+      module_name: vulnerabilityType,
+      module_level: 'Beginner',
+      points: points,
+      completed_at: new Date().toISOString()
+    });
+  }
+};
   
   if (session) {
     await supabase.from('user_progress').insert({
@@ -496,4 +509,5 @@ export function VulnerableStore({ vulnerabilityType, onClose }: VulnerableStoreP
     </div>
   );
 }
+
 
