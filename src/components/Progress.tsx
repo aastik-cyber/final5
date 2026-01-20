@@ -38,6 +38,18 @@ export function Progress() {
         setBeginnerProgress((beginnerCount / 4) * 100);
         setIntermediateProgress((intermediateCount / 4) * 100);
         setAdvancedProgress((advancedCount / 4) * 100);
+        const fetchProgress = async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) return;
+
+  const { data, error } = await supabase
+    .from('user_progress')
+    .select('*')
+    .eq('user_id', session.user.id) // This line personalizes the data
+    .order('completed_at', { ascending: false });
+
+  if (!error && data) setProgress(data);
+};
 
         const recentActivities = progressData.slice(0, 5).map(item => ({
           type: 'module',
@@ -350,3 +362,4 @@ export function Progress() {
     </div>
   );
 }
+
