@@ -1,6 +1,17 @@
 import { Shield, BookOpen, Wrench, Bot, Trophy } from 'lucide-react';
 import { LogOut, User } from 'lucide-react'; // cite: 18 (using lucide-react as seen in project)
 import { supabase } from '../lib/supabase';
+import { LogOut } from 'lucide-react'; //
+import { supabase } from '../lib/supabase'; //
+
+// Inside your Navigation component return, add this button:
+<button
+  onClick={() => supabase.auth.signOut()}
+  className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors"
+>
+  <LogOut className="h-5 w-5" />
+  <span>Logout</span>
+</button>
 
 // Add this function inside your Navigation component
 const handleLogout = async () => {
@@ -62,4 +73,5 @@ export function Navigation({ activeTab, onTabChange }: NavigationProps) {
     </nav>
   );
 }
+
 
