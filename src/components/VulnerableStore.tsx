@@ -63,6 +63,18 @@ export function VulnerableStore({ vulnerabilityType, onClose }: VulnerableStoreP
   const [currentUserId, setCurrentUserId] = useState(1);
   const [viewingUserId, setViewingUserId] = useState(1);
   const [displayHtml, setDisplayHtml] = useState('');
+  const handleComplete = async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  
+  if (session) {
+    await supabase.from('user_progress').insert({
+      user_id: session.user.id, // Links the completion to the person
+      module_name: vulnerabilityType,
+      points: 100,
+      completed_at: new Date().toISOString()
+    });
+  }
+};
 
   const vulnerabilityInfo: Record<string, VulnInfo> = {
     'sql-injection': {
@@ -484,3 +496,4 @@ export function VulnerableStore({ vulnerabilityType, onClose }: VulnerableStoreP
     </div>
   );
 }
+
