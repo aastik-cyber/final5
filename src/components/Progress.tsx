@@ -25,7 +25,21 @@ export function Progress() {
     }
   }
 };
+const fetchProgress = async () => {
+  const { data: { user } } = await supabase.auth.getUser(); //
 
+  if (user) {
+    const { data, error } = await supabase
+      .from('user_progress')
+      .select('*')
+      .eq('user_id', user.id) // Filter to only show THIS person's data
+      .order('completed_at', { ascending: false });
+
+    if (!error) {
+      // Set your state with this personalized data
+    }
+  }
+};
   useEffect(() => {
     loadProgressData();
   }, []);
@@ -376,5 +390,6 @@ export function Progress() {
     </div>
   );
 }
+
 
 
