@@ -227,6 +227,24 @@ const fetchProgress = async () => {
       </div>
     );
   }
+  // Inside Progress.tsx
+useEffect(() => {
+  const getMyProgress = async () => {
+    const { data: { user } } = await supabase.auth.getUser(); //
+    
+    if (user) {
+      const { data } = await supabase
+        .from('user_progress')
+        .select('*')
+        .eq('user_id', user.id) // This line makes it work different for each person
+        .order('completed_at', { ascending: false });
+      
+      if (data) setProgressEntries(data);
+    }
+  };
+
+  getMyProgress();
+}, []);
 
   return (
     <div className="space-y-6">
@@ -390,6 +408,7 @@ const fetchProgress = async () => {
     </div>
   );
 }
+
 
 
 
